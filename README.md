@@ -1,6 +1,6 @@
 # SchoolManagementSystem
 This is the final project for the first semester in java programming class taught by our one and only teacher Mr. Yi Wang.
-This project is realized by Ahmet Yusuf Yildirim.
+This project is realized by Ahmet Yusuf Yildirim (6238599).
 
 
 # 1. Project Description
