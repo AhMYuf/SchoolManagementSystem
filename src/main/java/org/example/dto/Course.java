@@ -32,6 +32,6 @@ public class Course {
 
     @Override
     public String toString() {
-        return String.format("id=%s, credit=%f, department=%s, student=%s, student number=%d, teacher=%s, course name=%s ", id, credit, department, Arrays.toString(students), studentNum, teacher, courseName);
+        return String.format("id= %s, credit= %f, department= %s, student= %s, student number= %d, teacher= %s, course name= %s ", id, credit, department, Arrays.toString(students), studentNum, teacher, courseName);
     }
 }
