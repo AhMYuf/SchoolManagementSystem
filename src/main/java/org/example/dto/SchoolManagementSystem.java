@@ -16,45 +16,56 @@ public class SchoolManagementSystem {
     private static final int MAX_TEACHER_NUM = 20;
     private static final int MAX_COURSE_NUM = 30;
     private static final int MAX_REGISTRATION_COURSE = 5;
+
     public SchoolManagementSystem() {
     }
-    public void findDepartment(){
+
+    public void findDepartment() {
         return; //not void
     }
 
     public void printTeachers() {
     }
-    public void modifyCourseTeacher(){
+
+    public void modifyCourseTeacher() {
     }
 
-    public void addDepartment(){
+    public void addDepartment() {
 
     }
-    public void printStudents(){
+
+    public void printStudents() {
 
     }
-    public void findStudent(){
+
+    public void findStudent() {
         //not void
     }
 
-    public void addCourse(){
+    public void addCourse() {
 
     }
+
     public void registerCourse() {
 
     }
+
     public void addTeacher() {
 
     }
+
     public void findCourse() {
         //not void
     }
+
     public void printDepartments() {
 
     }
+
     public void addStudent() {
 
     }
+
     public void findTeacher() {
         // not void
     }

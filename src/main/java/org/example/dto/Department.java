@@ -18,7 +18,7 @@ public class Department {
     }
 
     @Override
-    public String toString(){
-        return String.format("id=%s, department=%s",id ,departmentName);
+    public String toString() {
+        return String.format("id= %s, department= %s", id, departmentName);
     }
 }
