@@ -22,6 +22,7 @@ public class Department {
      * @param departmentName the name of the department name
      */
     public Department(String departmentName) {
+        // TODO how does a person know department id to find it
         this.id = String.format("D%03d", nextId++);
         this.departmentName = departmentName;
 
