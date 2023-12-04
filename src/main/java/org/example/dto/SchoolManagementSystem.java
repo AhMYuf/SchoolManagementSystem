@@ -63,6 +63,11 @@ public class SchoolManagementSystem {
             System.out.println(teacher);
         }
     }
+    public void printCourses() {
+        for(Course course : courseList) {
+            System.out.println(course);
+        }
+    }
 
     /**
      * Method that adds a course to a teacher
@@ -135,8 +140,8 @@ public class SchoolManagementSystem {
      *
      * @param courseName the name of the course that will be added to the school
      */
-    public void addCourse(double credit, String courseName) {
-        courseList[totalCourse++] = new Course(credit, courseName);
+    public void addCourse(double credit, String courseName, Department department) {
+        courseList[totalCourse++] = new Course(credit, courseName, department);
     }
 
     public void registerCourse(String studentId, String courseId) {

@@ -28,11 +28,12 @@ public class Course {
      * @param credit     the credit of the class
      * @param courseName the name of the course
      */
-    public Course(double credit, String courseName) {
+    public Course(double credit, String courseName, Department department) {
         this.id = String.format("C%03d", nextId++);
         this.credit = credit;
         this.students = new Student[MAX_REGISTRATION_COURSE];
         this.courseName = courseName;
+        this.department = department;
     }
 
     public int getStudentNum() {
@@ -42,23 +43,25 @@ public class Course {
 
     public void addStudent(Student student) {
         for (int i = 0; i < students.length; i++) {
-            if (student.getId().equals(students[i].getId())) {
+            if (students[i] != null && student.getId().equals(students[i].getId())) {
                 System.out.println("Student has been already registered this course.");
-            } else if (students[i] == null) {
+            } else {
                 students[i] = student;
                 System.out.println("Student has been registered provided course successfully.");
                 studentNum++;
+                break;
             }
         }
     }
 
     public void removeStudent(Student student) {
         for (int i = 0; i < students.length; i++) {
-            if (student.getId().equals(students[i].getId())) {
+            if (students[i] != null && student.getId().equals(students[i].getId())) {
                 students[i] = null;
                 System.out.println("Student has been removed provided course successfully.");
                 studentNum--;
-            } else if (students[i] == null) {
+                break;
+            } else {
                 System.out.println("Student has not been already registered this course.");
             }
         }
@@ -78,7 +81,9 @@ public class Course {
     private String getStudentsName() {
         StringBuilder stringBuilder = new StringBuilder();
         for (Student student : students) {
-            stringBuilder.append(student.getFName()).append(student.getLName());
+            if (student != null) {
+                stringBuilder.append(student.getFName()).append(student.getLName());
+            }
         }
         return stringBuilder.toString();
     }

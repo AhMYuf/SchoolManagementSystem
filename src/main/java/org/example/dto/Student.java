@@ -13,6 +13,7 @@ public class Student {
     private String lName;
     private String id;
     private Course[] courses;
+    // TODO Can Student take class from multiple department like humanity and english and compsci courses may belong to different department
     private Department department;
     private Gender gender;
     private static final int MAX_STUDENT_COURSE_REGISTRATION = 5;
@@ -39,23 +40,26 @@ public class Student {
 
     public void addCourse(Course course) {
         for (int i = 0; i < courses.length; i++) {
-            if (course.getId().equals(courses[i].getId())) {
+            if (courses[i] != null && course.getId().equals(courses[i].getId())) {
                 System.out.println("Student has been already registered this course.");
-            } else if (courses[i] == null) {
+            } else {
                 courses[i] = course;
                 System.out.println("Student has been registered provided course successfully.");
                 courseNum++;
+                break;
             }
         }
     }
 
+
     public void removeCourse(Course course) {
         for (int i = 0; i < courses.length; i++) {
-            if (course.getId() == courses[i].getId()) {
+            if (courses[i] != null && course.getId().equals(courses[i].getId())) {
                 courses[i] = null;
-                System.out.println("Student has been removed provided course successfully.");
                 courseNum--;
-            } else if (courses[i] == null) {
+                System.out.println("Student has been removed provided course successfully.");
+                break;
+            } else {
                 System.out.println("Student has not been already registered this course.");
             }
         }
@@ -73,14 +77,18 @@ public class Student {
      */
     @Override
     public String toString() {
-        return String.format("Student{id= %s, first name= %s, last name= %s, gender= %s, number of courses= %d, courses= %s, department= %s}", id, fName, lName, gender, courseNum, getCoursesName(), department.getDepartmentName());
+        return String.format("Student{id= %s, first name= %s, last name= %s, gender= %s, number of courses= %d, courses= %s, department= %s}",
+                id, fName, lName, gender, courseNum, getCoursesName(), department.getDepartmentName());
     }
 
     private String getCoursesName() {
         StringBuilder stringBuilder = new StringBuilder();
         for (Course course : courses) {
-            stringBuilder.append(course.getCourseName());
+            if(course != null) {
+                stringBuilder.append(course.getCourseName());
+            }
         }
         return stringBuilder.toString();
     }
+    // TODO if teacher tells me a student can take courses from multiple departmenets, make a method to get department name too
 }
