@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 public class Teacher {
+    private byte experience;
     private String lName;
     private String fName;
     private Department department;
@@ -23,11 +24,12 @@ public class Teacher {
      * @param fName  last name of the teacher
      * @param gender the gender of the teacher
      */
-    public Teacher(String lName, String fName, Gender gender, Department department) {
+    public Teacher(String lName, String fName, byte experience, Gender gender, Department department) {
         this.id = String.format("T%03d", nextId++);
         this.fName = fName;
         this.lName = lName;
         this.gender = gender;
+        this.experience = 0;
         this.department = department;
     }
 
@@ -42,8 +44,8 @@ public class Teacher {
      */
     @Override
     public String toString() {
-        return String.format("Teacher{id= %s, first name= %s, last name= %s, gender= %s, department= %s}",
-                id, fName, lName, gender, department.getDepartmentName());
+        return String.format("Teacher{id= %s, first name= %s, last name= %s, experience= %d, gender= %s, department= %s}",
+                id, fName, lName, experience, gender, department.getDepartmentName());
     }
 
 }

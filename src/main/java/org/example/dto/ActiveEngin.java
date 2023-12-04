@@ -1,16 +1,11 @@
-package org.example;
-
-import org.example.dto.Gender;
-import org.example.dto.SchoolManagementSystem;
+package org.example.dto;
 
 import java.util.Scanner;
 
-public class Main {
+public class ActiveEngin {
+    private static boolean isExit = true;
 
-private static boolean isExit = true;
-
-
-    public static void main(String[] args) {
+    public ActiveEngin() {
         SchoolManagementSystem school = new SchoolManagementSystem();
         Scanner scanner = new Scanner(System.in);
 
@@ -44,7 +39,7 @@ private static boolean isExit = true;
         switch (input) {
             case "0":
                 System.out.println("You are exiting the School Management System.");
-                isExit = false;
+                boolean isExit = false;
                 break;
             case "1":
                 addDepartment(scanner,school);
@@ -94,8 +89,8 @@ private static boolean isExit = true;
             default:
                 System.out.println("There is no action regarding the inputted number! \nPlease enter a number attributed to a valid integer!");
 
+        }
     }
-}
 
     private static void addDepartment(Scanner scanner, SchoolManagementSystem school) {
         System.out.println("Please enter a name for the department.");
@@ -228,3 +223,4 @@ private static boolean isExit = true;
         }
     }
 }
+

@@ -33,7 +33,6 @@ public class Course {
         this.credit = credit;
         this.students = new Student[MAX_REGISTRATION_COURSE];
         this.courseName = courseName;
-        this.department = department;
     }
 
     public int getStudentNum() {

@@ -140,8 +140,9 @@ public class SchoolManagementSystem {
      *
      * @param courseName the name of the course that will be added to the school
      */
-    public void addCourse(double credit, String courseName, Department department) {
-        courseList[totalCourse++] = new Course(credit, courseName, department);
+    public void addCourse(double credit, String courseName, String departmentId) {
+        courseList[totalCourse++] = new Course(credit, courseName, findDepartment(departmentId));
+        //TODO check if courses are full
     }
 
     public void registerCourse(String studentId, String courseId) {
@@ -150,6 +151,7 @@ public class SchoolManagementSystem {
         if (student == null || course == null) {
             if (student == null) {
                 System.out.println("The researched student does not exist.");
+                //TODO return;
             }
             if (course == null) {
                 System.out.println("The researched course does not exist.");
@@ -160,7 +162,7 @@ public class SchoolManagementSystem {
         }
     }
 
-    public void exitCourse(String studentId, String courseId) {
+    public void unregisterCourse(String studentId, String courseId) {
         Student student = findStudent(studentId);
         Course course = findCourse(courseId);
         if (student == null || course == null) {
@@ -177,8 +179,11 @@ public class SchoolManagementSystem {
     }
 
 
-    public void addTeacher(String lName, String fName, Gender gender, Department department) {
-        teacherList[totalTeacher++] = new Teacher(lName, fName, gender, department);
+    public void addTeacher(String fName, String lName, byte experience, Gender gender, String departmentId) {
+        String fNameUpper = toUpper(fName);
+        String lNameUpper = toUpper(lName);
+        System.out.println("Please input the gender in uppercase. The options are MALE, FEMALE or OTHERS.");
+        teacherList[totalTeacher++] = new Teacher(fNameUpper, lNameUpper, experience, gender, findDepartment(departmentId));
     }
 
 
@@ -209,8 +214,10 @@ public class SchoolManagementSystem {
     }
 
 
-    public void addStudent(String fName, String lName, Gender gender, Department department) {
-        studentList[totalStudent++] = new Student(fName, lName, gender, department);
+    public void addStudent(String fName, String lName, Gender gender, String avgGrade, String departmentId) {
+        String fNameUpper = toUpper(fName);
+        String lNameUpper = toUpper(lName);
+        studentList[totalStudent++] = new Student(fNameUpper, lNameUpper, gender, avgGrade, findDepartment(departmentId));
     }
 
     /**
@@ -232,4 +239,15 @@ public class SchoolManagementSystem {
         System.out.println("The department with the entered id does not exist.");
         return null;
     }
+
+    private String toUpper(String string) {
+        if (string == null || string.isEmpty()) {
+            return string;
+        }
+        return string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase();
+    }
+
+//    private double calculateGrade() {
+//
+//    }
 }

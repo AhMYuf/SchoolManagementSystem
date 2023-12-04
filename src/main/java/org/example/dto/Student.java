@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 public class Student {
+    private String avgGrade;
     private String fName;
     private String lName;
     private String id;
@@ -28,13 +29,14 @@ public class Student {
      * @param lName  last name of the student
      * @param gender the gender of the student
      */
-    public Student(String fName, String lName, Gender gender, Department department) {
+    public Student(String fName, String lName, Gender gender, String avgGrade, Department department) {
         this.id = String.format("S%03d", nextId++);
         this.fName = fName;
         this.lName = lName;
         this.courses = new Course[MAX_STUDENT_COURSE_REGISTRATION];
         this.gender = gender;
         this.department = department;
+        this.avgGrade = avgGrade;
     }
 
 
