@@ -28,7 +28,7 @@ public class Course {
      * @param credit     the credit of the class
      * @param courseName the name of the course
      */
-    public Course(double credit, String courseName, Department department) {
+    public Course(double credit, String courseName, Department department) { // String department??
         this.id = String.format("C%03d", nextId++);
         this.credit = credit;
         this.students = new Student[MAX_REGISTRATION_COURSE];

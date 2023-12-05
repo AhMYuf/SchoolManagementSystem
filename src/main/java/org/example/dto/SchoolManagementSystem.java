@@ -16,10 +16,6 @@ public class SchoolManagementSystem {
     private static final int MAX_REGISTRATION_COURSE = 5;
     private static final int MAX_COURSE_NUM = 30;
 
-    private static int totalTeacher = 0;
-    private static int totalStudent = 0;
-    private static int totalCourse = 0;
-
     private Department[] departmentList;
     private Course[] courseList;
     private Teacher[] teacherList;
@@ -59,14 +55,20 @@ public class SchoolManagementSystem {
      * Method that displays all the teachers
      */
     public void printTeachers() {
+        StringBuilder stringBuilder = new StringBuilder();
         for (Teacher teacher : teacherList) {
-            System.out.println(teacher);
+            if (teacher != null)
+                stringBuilder.append(String.format("{%s-%s}", teacher.getId(), teacher.getFullName()));
         }
+        System.out.println(stringBuilder.toString());
     }
     public void printCourses() {
-        for(Course course : courseList) {
-            System.out.println(course);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Course course : courseList) {
+            if (course != null)
+                stringBuilder.append(String.format("{%s-%s}", course.getId(), course.getCourseName()));
         }
+        System.out.println(stringBuilder.toString());
     }
 
     /**
@@ -97,11 +99,12 @@ public class SchoolManagementSystem {
      */
     public void addDepartment(String departmentName) {
         if (departmentList[MAX_DEPARTMENT_NUM - 1] != null) {
-            System.out.printf("You have created %s\n", MAX_DEPARTMENT_NUM);
+            System.out.printf("You have created %s. Max number of departments reached, add a new department failed.\n", MAX_DEPARTMENT_NUM);
         } else {
             for (int i = 0; i < MAX_DEPARTMENT_NUM; i++) {
                 if (departmentList[i] == null) {
                     departmentList[i] = new Department(departmentName);
+                    System.out.println("You have successfully created a new department.");
                     break;
                 }
             }
@@ -112,9 +115,12 @@ public class SchoolManagementSystem {
      * Method that print all the students exist in the school
      */
     public void printStudents() {
+        StringBuilder stringBuilder = new StringBuilder();
         for (Student student : studentList) {
-            System.out.println(student);
+            if (student != null)
+                stringBuilder.append(String.format("{%s-%s}", student.getId(), student.getFullName()));
         }
+        System.out.println(stringBuilder.toString());
     }
 
     /**
@@ -141,8 +147,17 @@ public class SchoolManagementSystem {
      * @param courseName the name of the course that will be added to the school
      */
     public void addCourse(double credit, String courseName, String departmentId) {
-        courseList[totalCourse++] = new Course(credit, courseName, findDepartment(departmentId));
-        //TODO check if courses are full
+        if (courseList[MAX_COURSE_NUM - 1] != null) {
+            System.out.printf("You have created %s. Max number of courses reached, add a new course failed.\n", MAX_COURSE_NUM);
+        } else {
+            for (int i = 0; i < MAX_COURSE_NUM; i++) {
+                if (courseList[i] == null) {
+                    courseList[i] = new Course(credit, courseName, findDepartment(departmentId));
+                    System.out.println("You have successfully created a new course.");
+                    break;
+                }
+            }
+        }
     }
 
     public void registerCourse(String studentId, String courseId) {
@@ -179,11 +194,20 @@ public class SchoolManagementSystem {
     }
 
 
-    public void addTeacher(String fName, String lName, byte experience, Gender gender, String departmentId) {
+    public void addTeacher(String fName, String lName, int experience, Gender gender, String departmentId) {
         String fNameUpper = toUpper(fName);
         String lNameUpper = toUpper(lName);
-        System.out.println("Please input the gender in uppercase. The options are MALE, FEMALE or OTHERS.");
-        teacherList[totalTeacher++] = new Teacher(fNameUpper, lNameUpper, experience, gender, findDepartment(departmentId));
+        if (teacherList[MAX_TEACHER_NUM - 1] != null) {
+            System.out.printf("You have created %s. Max number of teachers reached, add a new teacher failed.\n", MAX_TEACHER_NUM);
+        } else {
+            for (int i = 0; i < MAX_TEACHER_NUM; i++) {
+                if (teacherList[i] == null) {
+                    teacherList[i] = new Teacher(fNameUpper, lNameUpper, experience,  gender, findDepartment(departmentId));
+                    System.out.println("You have successfully created a new teacher.");
+                    break;
+                }
+            }
+        }
     }
 
 
@@ -200,7 +224,7 @@ public class SchoolManagementSystem {
                 }
             }
         }
-        System.out.println("The department with the entered id does not exist.");
+        System.out.println("The course with the entered id does not exist.");
         return null;
     }
 
@@ -208,16 +232,31 @@ public class SchoolManagementSystem {
      * Method that prints all the departments
      */
     public void printDepartments() {
+        StringBuilder stringBuilder = new StringBuilder();
         for (Department department : departmentList) {
-            System.out.println(department);
+            if (department != null)
+                stringBuilder.append(String.format("{%s-%s}", department.getId(), department.getDepartmentName()));
         }
+        System.out.println(stringBuilder.toString());
     }
 
 
-    public void addStudent(String fName, String lName, Gender gender, String avgGrade, String departmentId) {
+    public void addStudent(String fName, String lName, Gender gender, String departmentId) {
         String fNameUpper = toUpper(fName);
         String lNameUpper = toUpper(lName);
-        studentList[totalStudent++] = new Student(fNameUpper, lNameUpper, gender, avgGrade, findDepartment(departmentId));
+        if (studentList[MAX_STUDENT_NUM - 1] != null) {
+            System.out.printf("You have created %s students. Max number of students reached, add a new student failed.\n", MAX_STUDENT_NUM);
+        } else {
+            for (int i = 0; i < MAX_STUDENT_NUM; i++) {
+                if (studentList[i] == null) {
+                    studentList[i] = new Student(fNameUpper, lNameUpper, gender, findDepartment(departmentId));
+                    System.out.println("You have successfully created a new student.");
+                    break;
+                }
+            }
+        }
+
+//        studentList[totalStudent++] = new Student(fNameUpper, lNameUpper, gender, avgGrade, findDepartment(departmentId));
     }
 
     /**
@@ -236,7 +275,7 @@ public class SchoolManagementSystem {
                 }
             }
         }
-        System.out.println("The department with the entered id does not exist.");
+        System.out.println("The teacher with the entered id does not exist.");
         return null;
     }
 
@@ -246,8 +285,4 @@ public class SchoolManagementSystem {
         }
         return string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase();
     }
-
-//    private double calculateGrade() {
-//
-//    }
 }

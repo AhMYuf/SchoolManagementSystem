@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 public class Student {
-    private String avgGrade;
     private String fName;
     private String lName;
     private String id;
@@ -17,6 +16,7 @@ public class Student {
     // TODO Can Student take class from multiple department like humanity and english and compsci courses may belong to different department
     private Department department;
     private Gender gender;
+    private String fullName;
     private static final int MAX_STUDENT_COURSE_REGISTRATION = 5;
 
     private static int courseNum = 0;
@@ -29,14 +29,14 @@ public class Student {
      * @param lName  last name of the student
      * @param gender the gender of the student
      */
-    public Student(String fName, String lName, Gender gender, String avgGrade, Department department) {
+    public Student(String fName, String lName, Gender gender, Department department) { // String department??
         this.id = String.format("S%03d", nextId++);
         this.fName = fName;
         this.lName = lName;
         this.courses = new Course[MAX_STUDENT_COURSE_REGISTRATION];
         this.gender = gender;
         this.department = department;
-        this.avgGrade = avgGrade;
+        this.fullName = fullName();
     }
 
 

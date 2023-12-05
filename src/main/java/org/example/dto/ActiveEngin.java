@@ -4,18 +4,14 @@ import java.util.Scanner;
 
 public class ActiveEngin {
     private static boolean isExit = true;
-
+    private SchoolManagementSystem school;
+    private Scanner scanner;
     public ActiveEngin() {
-        SchoolManagementSystem school = new SchoolManagementSystem();
-        Scanner scanner = new Scanner(System.in);
-
-        while (isExit) {
-            menu(scanner, school);
-        }
-        scanner.close();
+        school = new SchoolManagementSystem();
+        scanner = new Scanner(System.in);
     }
 
-    private static void menu(Scanner scanner, SchoolManagementSystem school) {
+    private void menu(Scanner scanner, SchoolManagementSystem school) {
         System.out.println("Please input a number depending on the action you wish to realize. Enter '0' to exit the program.");
         System.out.println("""
                 Enter:
@@ -35,35 +31,35 @@ public class ActiveEngin {
                 14 to register to a course;
                 15 to unregister from a course.
                 """);
-        String input = scanner.next();
+        String input = scanner.nextLine();
         switch (input) {
             case "0":
                 System.out.println("You are exiting the School Management System.");
                 boolean isExit = false;
                 break;
             case "1":
-                addDepartment(scanner,school);
+                addDepartment(school);
                 break;
             case "2":
-                addCourse(scanner,school);
+                addCourse(school);
                 break;
             case "3":
-                addTeacher(scanner, school);
+                addTeacher(school);
                 break;
             case "4":
-                addStudent(scanner, school);
+                addStudent(school);
                 break;
             case "5":
-                findDepartment(scanner, school);
+                findDepartment(school);
                 break;
             case "6":
-                findCourse(scanner, school);
+                findCourse(school);
                 break;
             case "7":
-                findTeacher(scanner, school);
+                findTeacher(school);
                 break;
             case "8":
-                findStudent(scanner, school);
+                findStudent(school);
                 break;
             case "9":
                 school.printDepartments();
@@ -78,7 +74,7 @@ public class ActiveEngin {
                 school.printStudents();
                 break;
             case "13":
-                modifyCourseTeacher(scanner, school);
+                modifyCourseTeacher(school);
                 break;
             case "14":
                 registerCourse(scanner, school);
@@ -92,135 +88,118 @@ public class ActiveEngin {
         }
     }
 
-    private static void addDepartment(Scanner scanner, SchoolManagementSystem school) {
-        System.out.println("Please enter a name for the department.");
-        String depName = scanner.nextLine();
+    private void addTeacher(SchoolManagementSystem school) {
+        String fName = getUserInput("Please enter the first name of the teacher.");
+        String lName = getUserInput("Please enter the last name of the teacher.");
+        String expStr = getUserInput("Please enter the years of experience of the teacher.");
+        String gender = getUserInput("Please enter the gender of the teacher. The options are MALE, FEMALE or OTHERS.").toUpperCase();
+        school.printDepartments();
+        String departmentId = getUserInput("Please enter the department id of the teacher.").toUpperCase();
+        int expInt = convertToInt(expStr);
+        school.addTeacher(fName, lName, expInt, Gender.valueOf(gender), departmentId);
+    }
+
+    private void addDepartment(SchoolManagementSystem school) {
+        String depName = getUserInput("Please enter a name for the department.");
         school.addDepartment(depName);
     }
 
-    private static void addCourse(Scanner scanner, SchoolManagementSystem school) {
-        try {
-            System.out.println("Please enter a credit number for the course.");
-            double credit = scanner.nextDouble();
-            System.out.println("Please enter a name for the course.");
-            String courseName = scanner.nextLine();
-            System.out.println("Please enter a department for the course.");
-            String department = scanner.nextLine();
-            school.addCourse(credit, courseName, department);
-        } catch (Exception e) {
-            System.out.println("One of the inputted values is not valid. Please restart the process over again.");
-            System.out.println("Tip: \t PLEASE PAY EXTRA ATTENTION TO WHEN YOU ARE ENTERING THE VALUES!");
-        }
+    private void addCourse(SchoolManagementSystem school) {
+        String creditStr = getUserInput("Please enter a credit number for the course."); //TODO decimal not integer
+        String courseName = getUserInput("Please enter a name for the course.");
+school.printDepartments();
+String departmentId = getUserInput("Please enter a department for the course.");
+        double creditDouble = convertToDouble(creditStr);
+
+        school.addCourse(creditDouble, courseName, departmentId);
     }
 
-    private static void addTeacher(Scanner scanner, SchoolManagementSystem school) {
-        try {
-            System.out.println("Please enter the first name of the teacher.");
-            String fName = scanner.nextLine();
-            System.out.println("Please enter the last name of the teacher.");
-            String lName = scanner.nextLine();
-            System.out.println("Please enter the years of experience of the teacher.");
-            byte experience = scanner.nextByte();
-            System.out.println("Please enter the gender of the teacher.");
-            String gender = scanner.nextLine().toUpperCase();
-            System.out.println("Please enter the department id of the teacher.");
-            String departmentId = scanner.nextLine();
-            school.addTeacher(fName, lName, experience, Gender.valueOf(gender), departmentId);
-        } catch (Exception e) {
-            System.out.println("One of the inputted values is not valid. Please restart the process over again.");
-            System.out.println("Tip: \t PLEASE PAY EXTRA ATTENTION TO WHEN YOU ARE ENTERING THE VALUES!");
-        }
+    private void addStudent(SchoolManagementSystem school) {
+        String fName = getUserInput("Please enter the first name of the student.");
+        String lName = getUserInput("Please enter the last name of the student.");
+        String gender = getUserInput("Please enter the gender of the student. Please input the gender in uppercase. The options are MALE, FEMALE or OTHERS.").toUpperCase();
+       school.printDepartments();
+        String departmentId = getUserInput("Please enter the student id.");
+        school.addStudent(fName, lName, Gender.valueOf(gender), departmentId);
     }
 
-    private static void addStudent(Scanner scanner, SchoolManagementSystem school) {
-        try {
-            System.out.println("Please enter the first name of the student.");
-            String fName = scanner.nextLine();
-            System.out.println("Please enter the last name of the student.");
-            String lName = scanner.nextLine();
-            System.out.println("Please enter the gender of the student.");
-            String gender = scanner.nextLine().toUpperCase();
-            System.out.println("Please enter the students grades.");
-            String scores = scanner.nextLine();
-            System.out.println("Please enter the student id.");
-            String departmentId = scanner.nextLine();
-            school.addStudent(fName, lName, Gender.valueOf(gender), scores, departmentId);
-        } catch (Exception e) {
-            System.out.println("One of the inputted values is not valid. Please restart the process over again.");
-            System.out.println("Tip: \t PLEASE PAY EXTRA ATTENTION TO WHEN YOU ARE ENTERING THE VALUES!");
-        }
-    }
-    private static void findDepartment(Scanner scanner, SchoolManagementSystem school) {
-        try {
-            System.out.println("Please input the department id (e.g.: D001).");
-            String departmentId = scanner.nextLine();
-            school.findDepartment(departmentId);
-        } catch (Exception e) {
-            System.out.println("The inputted id does not match any existing department id!");
-        }
-    }
-    private static void findCourse(Scanner scanner, SchoolManagementSystem school) {
-        try {
-            System.out.println("Please input the course id (e.g.: C001).");
-            String courseId = scanner.nextLine();
-            school.findCourse(courseId);
-        } catch (Exception e) {
-            System.out.println("The inputted id does not match any existing course id!");
-        }
+
+    private void findDepartment(SchoolManagementSystem school) {
+        school.printDepartments();
+        String departmentId = getUserInput("Please input the department id (e.g.: D001).");
+        school.findDepartment(departmentId);
     }
 
-    private static void findTeacher(Scanner scanner, SchoolManagementSystem school) {
-        try {
-            System.out.println("Please input the teacher id (e.g.: T001).");
-            String teacherId = scanner.nextLine();
-            school.findTeacher(teacherId);
-        } catch (Exception e) {
-            System.out.println("The inputted id does not match any existing teacher id!");
-        }
+    private void findCourse(SchoolManagementSystem school) {
+        String courseId = getUserInput("Please input the course id (e.g.: C001).");
+        school.findCourse(courseId);
     }
 
-    private static void findStudent(Scanner scanner, SchoolManagementSystem school) {
-        try {
-            System.out.println("Please input the student id (e.g.: S001).");
-            String studentId = scanner.nextLine();
-            school.findTeacher(studentId);
-        } catch (Exception e) {
-            System.out.println("The inputted id does not match any existing student id!");
-        }
-    }
-    private static void modifyCourseTeacher(Scanner scanner, SchoolManagementSystem school) {
-        try {
-            System.out.println("Please enter the teacher's id (e.g.: T001).");
-            String teacherId = scanner.next();
-            System.out.println("Please enter the course's id (e.g.: T001).");
-            String courseId = scanner.next();
-            school.modifyCourseTeacher(teacherId, courseId);
-        } catch (Exception e) {
-            System.out.println("One or both of the ids entered are wrong.");
-        }
+    private void findTeacher(SchoolManagementSystem school) {
+        String teacherId = getUserInput("Please input the teacher id (e.g.: T001).");
+        school.findTeacher(teacherId);
     }
 
-    private static void registerCourse(Scanner scanner, SchoolManagementSystem school) {
-        try {
-            System.out.println("Please enter the student id (e.g.: S001)");
-            String studentId = scanner.nextLine();
-            System.out.println("Please enter the course id (e.g.: C001)");
-            String courseId = scanner.nextLine();
-            school.registerCourse(studentId, courseId);
-        } catch (Exception e) {
-            System.out.println("One or both of the entered ids are invalid.");
-        }
+    private void findStudent(SchoolManagementSystem school) {
+        String studentId = getUserInput("Please input the student id (e.g.: S001).");
+        school.findTeacher(studentId);
     }
-    private static void unregisterCourse(Scanner scanner, SchoolManagementSystem school) {
-        try {
-            System.out.println("Please enter the student id (e.g.: S001)");
-            String studentId = scanner.nextLine();
-            System.out.println("Please enter the course id (e.g.: C001)");
-            String courseId = scanner.nextLine();
-            school.unregisterCourse(studentId, courseId);
-        } catch (Exception e) {
-            System.out.println("One or both of the entered ids are invalid.");
+
+    private void modifyCourseTeacher(SchoolManagementSystem school) {
+        String teacherId = getUserInput("Please enter the teacher's id (e.g.: T001).");
+        String courseId = getUserInput("Please enter the course's id (e.g.: T001).");
+        school.modifyCourseTeacher(teacherId, courseId);
+    }
+
+    private void registerCourse(Scanner scanner, SchoolManagementSystem school) {
+        String studentId = getUserInput("Please enter the student id (e.g.: S001)");
+        String courseId = getUserInput("Please enter the course id (e.g.: C001)");
+        school.registerCourse(studentId, courseId);
+    }
+
+    private void unregisterCourse(Scanner scanner, SchoolManagementSystem school) {
+        String studentId = getUserInput("Please enter the student id (e.g.: S001)");
+        String courseId = getUserInput("Please enter the course id (e.g.: C001)");
+        school.unregisterCourse(studentId, courseId);
+    }
+
+
+    private String getUserInput(String question) {
+        System.out.println(question);
+        String ans = scanner.nextLine();
+        if (ans == null) {
+            System.out.println(question);
+            ans = scanner.nextLine();
         }
+        return ans;
+    }
+
+    private int convertToInt(String input) {
+        int output = -1;
+        try {
+            output = Integer.parseInt(input);
+        } catch (Exception e) {
+            System.out.println("Tip: \t PLEASE PAY EXTRA ATTENTION TO WHEN YOU ARE ENTERING THE VALUES (integer)!");
+        }
+        return output;
+    }
+
+    private double convertToDouble(String input) {
+        double output = -1;
+        try {
+            output = Double.parseDouble(input);
+        } catch (Exception e) {
+            System.out.println("Tip: \t PLEASE PAY EXTRA ATTENTION TO WHEN YOU ARE ENTERING THE VALUES (double)!");
+        }
+        return output;
+    }
+
+    public void Menu() {
+
+        while (isExit) {
+            menu(scanner, school);
+        }
+        scanner.close();
     }
 }
 

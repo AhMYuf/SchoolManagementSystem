@@ -8,12 +8,13 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 public class Teacher {
-    private byte experience;
+    private int experience;
     private String lName;
     private String fName;
     private Department department;
     private String id;
     private Gender gender;
+    private String fullName;
 
     private static int nextId = 1;
 
@@ -24,13 +25,14 @@ public class Teacher {
      * @param fName  last name of the teacher
      * @param gender the gender of the teacher
      */
-    public Teacher(String lName, String fName, byte experience, Gender gender, Department department) {
+    public Teacher(String lName, String fName, int experience, Gender gender, Department department) { // String department??
         this.id = String.format("T%03d", nextId++);
         this.fName = fName;
         this.lName = lName;
         this.gender = gender;
-        this.experience = 0;
+        this.experience = experience;
         this.department = department;
+        this.fullName = fullName();
     }
 
     public String fullName() {
