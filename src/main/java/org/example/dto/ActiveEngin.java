@@ -12,7 +12,7 @@ public class ActiveEngin {
     }
 
     private void menu(Scanner scanner, SchoolManagementSystem school) {
-        System.out.println("Please input a number depending on the action you wish to realize. Enter '0' to exit the program.");
+        System.out.println("\nPlease input a number depending on the action you wish to realize. Enter '0' to exit the program.");
         System.out.println("""
                 Enter:
                 1 to add a department;
@@ -30,12 +30,17 @@ public class ActiveEngin {
                 13 to modify course teacher;
                 14 to register to a course;
                 15 to unregister from a course.
+                16 to get the number of departments;
+                17 to get the number of courses;
+                18 to get the number of teachers;
+                18 to get the number of students;
                 """);
         String input = scanner.nextLine();
         switch (input) {
             case "0":
                 System.out.println("You are exiting the School Management System.");
                 boolean isExit = false;
+                // TODO the exit function is not working
                 break;
             case "1":
                 addDepartment(school);
@@ -77,13 +82,25 @@ public class ActiveEngin {
                 modifyCourseTeacher(school);
                 break;
             case "14":
-                registerCourse(scanner, school);
+                registerCourse(school);
                 break;
             case "15":
-                unregisterCourse(scanner, school);
+                unregisterCourse(school);
+                break;
+            case "16":
+                numberOfDepartments();
+                break;
+            case "17":
+                numberOfCourses();
+                break;
+            case "18":
+                numberOfTeachers();
+                break;
+            case "19":
+                numberOfStudents();
                 break;
             default:
-                System.out.println("There is no action regarding the inputted number! \nPlease enter a number attributed to a valid integer!");
+                System.out.println("There is no action regarding the inputted number! \nPlease enter a integer attributed to a valid action!");
 
         }
     }
@@ -107,8 +124,8 @@ public class ActiveEngin {
     private void addCourse(SchoolManagementSystem school) {
         String creditStr = getUserInput("Please enter a credit number for the course."); //TODO decimal not integer
         String courseName = getUserInput("Please enter a name for the course.");
-school.printDepartments();
-String departmentId = getUserInput("Please enter a department for the course.");
+        school.printDepartments();
+        String departmentId = getUserInput("Please enter a department for the course.");
         double creditDouble = convertToDouble(creditStr);
 
         school.addCourse(creditDouble, courseName, departmentId);
@@ -118,7 +135,7 @@ String departmentId = getUserInput("Please enter a department for the course.");
         String fName = getUserInput("Please enter the first name of the student.");
         String lName = getUserInput("Please enter the last name of the student.");
         String gender = getUserInput("Please enter the gender of the student. Please input the gender in uppercase. The options are MALE, FEMALE or OTHERS.").toUpperCase();
-       school.printDepartments();
+        school.printDepartments();
         String departmentId = getUserInput("Please enter the student id.");
         school.addStudent(fName, lName, Gender.valueOf(gender), departmentId);
     }
@@ -151,17 +168,31 @@ String departmentId = getUserInput("Please enter a department for the course.");
         school.modifyCourseTeacher(teacherId, courseId);
     }
 
-    private void registerCourse(Scanner scanner, SchoolManagementSystem school) {
+    private void registerCourse(SchoolManagementSystem school) {
         String studentId = getUserInput("Please enter the student id (e.g.: S001)");
         String courseId = getUserInput("Please enter the course id (e.g.: C001)");
         school.registerCourse(studentId, courseId);
     }
 
-    private void unregisterCourse(Scanner scanner, SchoolManagementSystem school) {
+    private void unregisterCourse(SchoolManagementSystem school) {
         String studentId = getUserInput("Please enter the student id (e.g.: S001)");
         String courseId = getUserInput("Please enter the course id (e.g.: C001)");
         school.unregisterCourse(studentId, courseId);
     }
+
+    private int numberOfStudents() {
+        return school.getStudentList().length;
+    }
+    private int numberOfTeachers() {
+        return school.getTeacherList().length;
+    }
+    private int numberOfCourses() {
+        return school.getCourseList().length;
+    }
+    private int numberOfDepartments() {
+        return school.getDepartmentList().length;
+    }
+
 
 
     private String getUserInput(String question) {
@@ -195,7 +226,6 @@ String departmentId = getUserInput("Please enter a department for the course.");
     }
 
     public void Menu() {
-
         while (isExit) {
             menu(scanner, school);
         }

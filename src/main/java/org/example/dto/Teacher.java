@@ -25,7 +25,7 @@ public class Teacher {
      * @param fName  last name of the teacher
      * @param gender the gender of the teacher
      */
-    public Teacher(String lName, String fName, int experience, Gender gender, Department department) { // String department??
+    public Teacher(String lName, String fName, int experience, Gender gender, Department department) {
         this.id = String.format("T%03d", nextId++);
         this.fName = fName;
         this.lName = lName;

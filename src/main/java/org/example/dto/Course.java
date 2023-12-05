@@ -32,13 +32,13 @@ public class Course {
         this.id = String.format("C%03d", nextId++);
         this.credit = credit;
         this.students = new Student[MAX_REGISTRATION_COURSE];
+        this.department = department;
         this.courseName = courseName;
     }
 
-    public int getStudentNum() {
-        return students.length;
-    }
-
+//    public int getStudentNum() {
+//        return students.length;
+//    }
 
     public void addStudent(Student student) {
         for (int i = 0; i < students.length; i++) {

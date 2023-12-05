@@ -13,7 +13,6 @@ public class Student {
     private String lName;
     private String id;
     private Course[] courses;
-    // TODO Can Student take class from multiple department like humanity and english and compsci courses may belong to different department
     private Department department;
     private Gender gender;
     private String fullName;
@@ -29,7 +28,7 @@ public class Student {
      * @param lName  last name of the student
      * @param gender the gender of the student
      */
-    public Student(String fName, String lName, Gender gender, Department department) { // String department??
+    public Student(String fName, String lName, Gender gender, Department department) {
         this.id = String.format("S%03d", nextId++);
         this.fName = fName;
         this.lName = lName;
@@ -92,5 +91,4 @@ public class Student {
         }
         return stringBuilder.toString();
     }
-    // TODO if teacher tells me a student can take courses from multiple departmenets, make a method to get department name too
 }

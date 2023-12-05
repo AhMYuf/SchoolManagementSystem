@@ -60,7 +60,7 @@ public class SchoolManagementSystem {
             if (teacher != null)
                 stringBuilder.append(String.format("{%s-%s}", teacher.getId(), teacher.getFullName()));
         }
-        System.out.println(stringBuilder.toString());
+        System.out.println(stringBuilder);
     }
     public void printCourses() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -68,7 +68,7 @@ public class SchoolManagementSystem {
             if (course != null)
                 stringBuilder.append(String.format("{%s-%s}", course.getId(), course.getCourseName()));
         }
-        System.out.println(stringBuilder.toString());
+        System.out.println(stringBuilder);
     }
 
     /**
@@ -98,12 +98,13 @@ public class SchoolManagementSystem {
      * @param departmentName name of the new department that will be created
      */
     public void addDepartment(String departmentName) {
+        String departmentNameUpper = toUpper(departmentName);
         if (departmentList[MAX_DEPARTMENT_NUM - 1] != null) {
             System.out.printf("You have created %s. Max number of departments reached, add a new department failed.\n", MAX_DEPARTMENT_NUM);
         } else {
             for (int i = 0; i < MAX_DEPARTMENT_NUM; i++) {
                 if (departmentList[i] == null) {
-                    departmentList[i] = new Department(departmentName);
+                    departmentList[i] = new Department(departmentNameUpper);
                     System.out.println("You have successfully created a new department.");
                     break;
                 }
@@ -120,7 +121,7 @@ public class SchoolManagementSystem {
             if (student != null)
                 stringBuilder.append(String.format("{%s-%s}", student.getId(), student.getFullName()));
         }
-        System.out.println(stringBuilder.toString());
+        System.out.println(stringBuilder);
     }
 
     /**
@@ -147,12 +148,13 @@ public class SchoolManagementSystem {
      * @param courseName the name of the course that will be added to the school
      */
     public void addCourse(double credit, String courseName, String departmentId) {
+        String courseNameUpper = toUpper(courseName);
         if (courseList[MAX_COURSE_NUM - 1] != null) {
             System.out.printf("You have created %s. Max number of courses reached, add a new course failed.\n", MAX_COURSE_NUM);
         } else {
             for (int i = 0; i < MAX_COURSE_NUM; i++) {
                 if (courseList[i] == null) {
-                    courseList[i] = new Course(credit, courseName, findDepartment(departmentId));
+                    courseList[i] = new Course(credit, courseNameUpper, findDepartment(departmentId));
                     System.out.println("You have successfully created a new course.");
                     break;
                 }
@@ -237,7 +239,7 @@ public class SchoolManagementSystem {
             if (department != null)
                 stringBuilder.append(String.format("{%s-%s}", department.getId(), department.getDepartmentName()));
         }
-        System.out.println(stringBuilder.toString());
+        System.out.println(stringBuilder);
     }
 
 
