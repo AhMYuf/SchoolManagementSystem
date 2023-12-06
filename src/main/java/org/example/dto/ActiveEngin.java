@@ -6,8 +6,8 @@ public class ActiveEngin {
     private static boolean isExit = true;
     private SchoolManagementSystem school;
     private Scanner scanner;
-    public ActiveEngin() {
-        school = new SchoolManagementSystem();
+    public ActiveEngin(SchoolManagementSystem school) {
+        this.school =  school;
         scanner = new Scanner(System.in);
     }
 
@@ -15,6 +15,7 @@ public class ActiveEngin {
         System.out.println("\nPlease input a number depending on the action you wish to realize. Enter '0' to exit the program.");
         System.out.println("""
                 Enter:
+                0 to exit;
                 1 to add a department;
                 2 to add a course;
                 3 to add a teacher;
@@ -39,7 +40,7 @@ public class ActiveEngin {
         switch (input) {
             case "0":
                 System.out.println("You are exiting the School Management System.");
-                boolean isExit = false;
+                isExit = false;
                 // TODO the exit function is not working
                 break;
             case "1":
@@ -189,8 +190,8 @@ public class ActiveEngin {
     private int numberOfCourses() {
         return school.getCourseList().length;
     }
-    private int numberOfDepartments() {
-        return school.getDepartmentList().length;
+    private void numberOfDepartments() {
+        System.out.println( school.getDepartmentList().length)
     }
 
 
