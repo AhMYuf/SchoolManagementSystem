@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * SchoolManagementSystem class, its fields and methods.
+ */
 @Getter
 @Setter
 @ToString
@@ -21,9 +24,8 @@ public class SchoolManagementSystem {
     private Teacher[] teacherList;
     private Student[] studentList;
 
-
     /**
-     * Constructor of the SchoolManagementSystem class
+     * Constructor of SchoolManagementSystem class.
      */
     public SchoolManagementSystem() {
         departmentList = new Department[MAX_DEPARTMENT_NUM];
@@ -33,69 +35,8 @@ public class SchoolManagementSystem {
     }
 
     /**
-     * Method that finds a department
-     *
-     * @param departmentId the id of the department
-     * @return all information regarding the department
-     */
-    public Department findDepartment(String departmentId) {
-        for (Department department : departmentList) {
-            if (department != null) {
-                if (department.getId().equals(departmentId)) {
-                    return department;
-                }
-            }
-        }
-        System.out.println("The department with the entered id does not exist.");
-        return null;
-        // TODO dont forget to null check
-    }
-
-    /**
-     * Method that displays all the teachers
-     */
-    public void printTeachers() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Teacher teacher : teacherList) {
-            if (teacher != null)
-                stringBuilder.append(String.format("{%s-%s}", teacher.getId(), teacher.getFullName()));
-        }
-        System.out.println(stringBuilder);
-    }
-    public void printCourses() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Course course : courseList) {
-            if (course != null)
-                stringBuilder.append(String.format("{%s-%s}", course.getId(), course.getCourseName()));
-        }
-        System.out.println(stringBuilder);
-    }
-
-    /**
-     * Method that adds a course to a teacher
-     *
-     * @param teacherId the id of the teacher that gets a new course
-     * @param courseId  id of the course that the teacher will be assigned to
-     */
-    public void modifyCourseTeacher(String teacherId, String courseId) {
-        Teacher teacher = findTeacher(teacherId);
-        Course course = findCourse(courseId);
-        if (teacher == null || course == null) {
-            if (teacher == null) {
-                System.out.println("The researched teacher does not exist.");
-            }
-            if (course == null) {
-                System.out.println("The researched course does not exist.");
-            }
-        } else {
-            course.setTeacher(teacher);
-        }
-    }
-
-    /**
-     * Method that creates a new department
-     *
-     * @param departmentName name of the new department that will be created
+     * Method that adds a department to SchoolManagementSystem.
+     * @param departmentName name of the department that is being added to SchoolManagementSystem.
      */
     public void addDepartment(String departmentName) {
         String departmentNameUpper = toUpper(departmentName);
@@ -113,39 +54,10 @@ public class SchoolManagementSystem {
     }
 
     /**
-     * Method that print all the students exist in the school
-     */
-    public void printStudents() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Student student : studentList) {
-            if (student != null)
-                stringBuilder.append(String.format("{%s-%s}", student.getId(), student.getFullName()));
-        }
-        System.out.println(stringBuilder);
-    }
-
-    /**
-     * Method that finds a student
-     *
-     * @param studentId the id of the student
-     * @return the information of the that is researched
-     */
-    public Student findStudent(String studentId) {
-        for (Student student : studentList) {
-            if (student != null) {
-                if (student.getId().equals(studentId)) {
-                    return student;
-                }
-            }
-        }
-        System.out.println("The student with the entered id does not exist.");
-        return null;
-    }
-
-    /**
-     * Method that adds a course to the school
-     *
-     * @param courseName the name of the course that will be added to the school
+     * Method that adds a course to SchoolManagementSystem.
+     * @param credit the credit of the course.
+     * @param courseName the name of the course.
+     * @param departmentId the id of the department.
      */
     public void addCourse(double credit, String courseName, String departmentId) {
         String courseNameUpper = toUpper(courseName);
@@ -162,13 +74,134 @@ public class SchoolManagementSystem {
         }
     }
 
+    /**
+     * Method that adds a teacher to SchoolManagementSystem.
+     *
+     * @param fName        the first name of the teacher.
+     * @param lName        the last name of the student.
+     * @param experience   the experience of the teacher.
+     * @param gender       the gender of the teacher.
+     * @param departmentId the id of the teacher.
+     */
+    public void addTeacher(String fName, String lName, int experience, Gender gender, String departmentId) {
+        String fNameUpper = toUpper(fName);
+        String lNameUpper = toUpper(lName);
+        if (teacherList[MAX_TEACHER_NUM - 1] != null) {
+            System.out.printf("You have created %s. Max number of teachers reached, add a new teacher failed.\n", MAX_TEACHER_NUM);
+        } else {
+            for (int i = 0; i < MAX_TEACHER_NUM; i++) {
+                if (teacherList[i] == null) {
+                    teacherList[i] = new Teacher(fNameUpper, lNameUpper, experience, gender, findDepartment(departmentId));
+                    System.out.println("You have successfully created a new teacher.");
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Method that adds a student to SchoolManagementSystem.
+     *
+     * @param fName        the first name of the student.
+     * @param lName        the last name of the student.
+     * @param gender       the gender of the student.
+     * @param departmentId the id of the student.
+     */
+    public void addStudent(String fName, String lName, Gender gender, String departmentId) {
+        String fNameUpper = toUpper(fName);
+        String lNameUpper = toUpper(lName);
+        if (studentList[MAX_STUDENT_NUM - 1] != null) {
+            System.out.printf("You have created %s students. Max number of students reached, add a new student failed.\n", MAX_STUDENT_NUM);
+        } else {
+            for (int i = 0; i < MAX_STUDENT_NUM; i++) {
+                if (studentList[i] == null) {
+                    studentList[i] = new Student(fNameUpper, lNameUpper, gender, findDepartment(departmentId));
+                    System.out.println("You have successfully created a new student.");
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Method that finds a department from SchoolManagementSystem.
+     * @param departmentId the id of the department.
+     * @return (String) the department or null.
+     */
+    public Department findDepartment(String departmentId) {
+        for (Department department : departmentList) {
+            if (department != null) {
+                if (department.getId().equals(departmentId)) {
+                    return department;
+                }
+            }
+        }
+        System.out.println("The department with the entered id does not exist.");
+        return null;
+    }
+
+    /**
+     * Method that finds a course from SchoolManagementSystem.
+     * @param courseId the id of the course.
+     * @return (String) the course or null.
+     */
+    public Course findCourse(String courseId) {
+        for (Course course : courseList) {
+            if (course != null) {
+                if (course.getId().equals(courseId)) {
+                    return course;
+                }
+            }
+        }
+        System.out.println("The course with the entered id does not exist.");
+        return null;
+    }
+
+    /**
+     * Method that finds a teacher from SchoolManagementSystem.
+     * @param teacherId the id of the teacher.
+     * @return (String) the teacher or null.
+     */
+    public Teacher findTeacher(String teacherId) {
+        for (Teacher teacher : teacherList) {
+            if (teacher != null) {
+                if (teacher.getId().equals(teacherId)) {
+                    return teacher;
+                }
+            }
+        }
+        System.out.println("The teacher with the entered id does not exist.");
+        return null;
+    }
+
+    /**
+     * Method that finds a student from SchoolManagementSystem.
+     * @param studentId the id of the student.
+     * @return (String) the student or null.
+     */
+    public Student findStudent(String studentId) {
+        for (Student student : studentList) {
+            if (student != null) {
+                if (student.getId().equals(studentId)) {
+                    return student;
+                }
+            }
+        }
+        System.out.println("The student with the entered id does not exist.");
+        return null;
+    }
+
+    /**
+     * Method that registers a student to a course.
+     * @param studentId the id of the student.
+     * @param courseId the id of the course.
+     */
     public void registerCourse(String studentId, String courseId) {
         Student student = findStudent(studentId);
         Course course = findCourse(courseId);
         if (student == null || course == null) {
             if (student == null) {
                 System.out.println("The researched student does not exist.");
-                //TODO return;
             }
             if (course == null) {
                 System.out.println("The researched course does not exist.");
@@ -179,6 +212,12 @@ public class SchoolManagementSystem {
         }
     }
 
+    /**
+     * Method that unregisters a student to a course.
+     *
+     * @param studentId the id of the student.
+     * @param courseId  the id of the course.
+     */
     public void unregisterCourse(String studentId, String courseId) {
         Student student = findStudent(studentId);
         Course course = findCourse(courseId);
@@ -195,43 +234,29 @@ public class SchoolManagementSystem {
         }
     }
 
-
-    public void addTeacher(String fName, String lName, int experience, Gender gender, String departmentId) {
-        String fNameUpper = toUpper(fName);
-        String lNameUpper = toUpper(lName);
-        if (teacherList[MAX_TEACHER_NUM - 1] != null) {
-            System.out.printf("You have created %s. Max number of teachers reached, add a new teacher failed.\n", MAX_TEACHER_NUM);
-        } else {
-            for (int i = 0; i < MAX_TEACHER_NUM; i++) {
-                if (teacherList[i] == null) {
-                    teacherList[i] = new Teacher(fNameUpper, lNameUpper, experience,  gender, findDepartment(departmentId));
-                    System.out.println("You have successfully created a new teacher.");
-                    break;
-                }
-            }
-        }
-    }
-
-
     /**
-     * Method that finds a course
+     * Method that changes the teacher of a course.
      *
-     * @param courseId the name of the searched course
+     * @param teacherId the id of the teacher.
+     * @param courseId  the id of the course.
      */
-    public Course findCourse(String courseId) {
-        for (Course course : courseList) {
-            if (course != null) {
-                if (course.getId().equals(courseId)) {
-                    return course;
-                }
+    public void modifyCourseTeacher(String teacherId, String courseId) {
+        Teacher teacher = findTeacher(teacherId);
+        Course course = findCourse(courseId);
+        if (teacher == null || course == null) {
+            if (teacher == null) {
+                System.out.println("The researched teacher does not exist.");
             }
+            if (course == null) {
+                System.out.println("The researched course does not exist.");
+            }
+        } else {
+            course.setTeacher(teacher);
         }
-        System.out.println("The course with the entered id does not exist.");
-        return null;
     }
 
     /**
-     * Method that prints all the departments
+     * Method that prints all the departments from SchoolManagementSystem.
      */
     public void printDepartments() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -242,45 +267,110 @@ public class SchoolManagementSystem {
         System.out.println(stringBuilder);
     }
 
-
-    public void addStudent(String fName, String lName, Gender gender, String departmentId) {
-        String fNameUpper = toUpper(fName);
-        String lNameUpper = toUpper(lName);
-        if (studentList[MAX_STUDENT_NUM - 1] != null) {
-            System.out.printf("You have created %s students. Max number of students reached, add a new student failed.\n", MAX_STUDENT_NUM);
-        } else {
-            for (int i = 0; i < MAX_STUDENT_NUM; i++) {
-                if (studentList[i] == null) {
-                    studentList[i] = new Student(fNameUpper, lNameUpper, gender, findDepartment(departmentId));
-                    System.out.println("You have successfully created a new student.");
-                    break;
-                }
-            }
+    /**
+     * Method that prints all the courses from SchoolManagementSystem.
+     */
+    public void printCourses() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Course course : courseList) {
+            if (course != null) stringBuilder.append(String.format("{%s-%s}", course.getId(), course.getCourseName()));
         }
-
-//        studentList[totalStudent++] = new Student(fNameUpper, lNameUpper, gender, avgGrade, findDepartment(departmentId));
+        System.out.println(stringBuilder);
     }
 
     /**
-     * Method that finds a teacher
-     *
-     * @param teacherId the identification assigned to a teacher
-     * @return the asked teachers information
+     * Method that prints all the teachers from SchoolManagementSystem.
      */
-
-
-    public Teacher findTeacher(String teacherId) {
+    public void printTeachers() {
+        StringBuilder stringBuilder = new StringBuilder();
         for (Teacher teacher : teacherList) {
-            if (teacher != null) {
-                if (teacher.getId().equals(teacherId)) {
-                    return teacher;
-                }
-            }
+            if (teacher != null) stringBuilder.append(String.format("{%s-%s}", teacher.getId(), teacher.getFullName()));
         }
-        System.out.println("The teacher with the entered id does not exist.");
-        return null;
+        System.out.println(stringBuilder);
     }
 
+    /**
+     * Method that prints all the students from SchoolManagementSystem.
+     */
+    public void printStudents() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Student student : studentList) {
+            if (student != null) {
+                stringBuilder.append(String.format("{%s-%s}", student.getId(), student.getFullName()));
+            }
+        }
+        System.out.println(stringBuilder);
+    }
+
+    /**
+     * Method that finds the number of registered students to SchoolManagementSystem.
+     *
+     * @return the number of students.
+     */
+    public int getRegisteredStudentNumber() {
+        int totalStudent = 0;
+        for (Student student : studentList) {
+            if (student == null) {
+                break;
+            }
+            totalStudent++;
+        }
+        return totalStudent;
+    }
+
+    /**
+     * Method that finds the number of registered teachers to SchoolManagementSystem.
+     * @return the number of teachers.
+     */
+    public int getRegisteredTeacherNumber() {
+        int totalTeacher = 0;
+        for (Teacher teacher : teacherList) {
+            if (teacher == null) {
+                break;
+            }
+            totalTeacher++;
+        }
+        return totalTeacher;
+    }
+
+    /**
+     * Method that finds the number of registered courses to SchoolManagementSystem.
+     *
+     * @return the number of courses.
+     */
+    public int getRegisteredCourseNumber() {
+        int totalCourse = 0;
+        for (Course course : courseList) {
+            if (course == null) {
+                break;
+            }
+            totalCourse++;
+        }
+        return totalCourse;
+    }
+
+    /**
+     * Method that finds the number of registered departments to SchoolManagementSystem.
+     *
+     * @return the number of departments.
+     */
+    public int getRegisteredDepartmentNumber() {
+        int totalDepartment = 0;
+        for (Department department : departmentList) {
+            if (department == null) {
+                break;
+            }
+            totalDepartment++;
+        }
+        return totalDepartment;
+    }
+
+    /**
+     * Method that takes a string and makes the first letter uppercase with the rest being lowercase.
+     *
+     * @param string the inputted string.
+     * @return the string.
+     */
     private String toUpper(String string) {
         if (string == null || string.isEmpty()) {
             return string;

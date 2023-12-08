@@ -2,16 +2,31 @@ package org.example.dto;
 
 import java.util.Scanner;
 
+/**
+ * ActiveEngin class, its fields and methods.
+ */
 public class ActiveEngin {
     private static boolean isExit = true;
-    private SchoolManagementSystem school;
-    private Scanner scanner;
+    private final SchoolManagementSystem school;
+    private final Scanner scanner;
+
+    /**
+     * Constructor of Active engin.
+     *
+     * @param school initialized SchoolManagementSystem object.
+     */
     public ActiveEngin(SchoolManagementSystem school) {
         this.school =  school;
         scanner = new Scanner(System.in);
     }
 
-    private void menu(Scanner scanner, SchoolManagementSystem school) {
+    /**
+     * Method that keeps taking user input to create an interactive user experience.
+     *
+     * @param scanner initialized scanner object.
+     * @param school  initialized SchoolManagementSystem object.
+     */
+    private void processUserAction(Scanner scanner, SchoolManagementSystem school) {
         System.out.println("\nPlease input a number depending on the action you wish to realize. Enter '0' to exit the program.");
         System.out.println("""
                 Enter:
@@ -34,14 +49,13 @@ public class ActiveEngin {
                 16 to get the number of departments;
                 17 to get the number of courses;
                 18 to get the number of teachers;
-                18 to get the number of students;
+                19 to get the number of students;
                 """);
         String input = scanner.nextLine();
         switch (input) {
             case "0":
                 System.out.println("You are exiting the School Management System.");
                 isExit = false;
-                // TODO the exit function is not working
                 break;
             case "1":
                 addDepartment(school);
@@ -102,135 +116,221 @@ public class ActiveEngin {
                 break;
             default:
                 System.out.println("There is no action regarding the inputted number! \nPlease enter a integer attributed to a valid action!");
-
         }
     }
 
+    /**
+     * Method that asks user questions to gather all necessary data to add a new department to SchoolManagementSystem.
+     *
+     * @param school initialized SchoolManagementSystem object.
+     */
+    private void addDepartment(SchoolManagementSystem school) {
+        String depName = getUserInput("Please enter a name for the department.");
+        school.addDepartment(depName);
+    }
+
+    /**
+     * Method that asks user questions to gather all necessary data to add a new course to SchoolManagementSystem.
+     *
+     * @param school initialized SchoolManagementSystem object.
+     */
+    private void addCourse(SchoolManagementSystem school) {
+        String creditStr = getUserInput("Please enter a credit number for the course.");
+        String courseName = getUserInput("Please enter a name for the course.");
+        school.printDepartments();
+        String departmentId = getUserInput("Please enter a department id for the course (e.g.: D001).");
+        double creditDouble = convertToDouble(creditStr);
+
+        school.addCourse(creditDouble, courseName, departmentId);
+    }
+
+    /**
+     * Method that asks user questions to gather all necessary data to add a new teacher to SchoolManagementSystem.
+     *
+     * @param school initialized SchoolManagementSystem object.
+     */
     private void addTeacher(SchoolManagementSystem school) {
         String fName = getUserInput("Please enter the first name of the teacher.");
         String lName = getUserInput("Please enter the last name of the teacher.");
         String expStr = getUserInput("Please enter the years of experience of the teacher.");
         String gender = getUserInput("Please enter the gender of the teacher. The options are MALE, FEMALE or OTHERS.").toUpperCase();
         school.printDepartments();
-        String departmentId = getUserInput("Please enter the department id of the teacher.").toUpperCase();
+        String departmentId = getUserInput("Please enter the department id of the teacher. (e.g.: D001).").toUpperCase();
         int expInt = convertToInt(expStr);
         school.addTeacher(fName, lName, expInt, Gender.valueOf(gender), departmentId);
     }
 
-    private void addDepartment(SchoolManagementSystem school) {
-        String depName = getUserInput("Please enter a name for the department.");
-        school.addDepartment(depName);
-    }
-
-    private void addCourse(SchoolManagementSystem school) {
-        String creditStr = getUserInput("Please enter a credit number for the course."); //TODO decimal not integer
-        String courseName = getUserInput("Please enter a name for the course.");
-        school.printDepartments();
-        String departmentId = getUserInput("Please enter a department for the course.");
-        double creditDouble = convertToDouble(creditStr);
-
-        school.addCourse(creditDouble, courseName, departmentId);
-    }
-
+    /**
+     * Method that asks user questions to gather all necessary data to add a new student to SchoolManagementSystem.
+     *
+     * @param school initialized SchoolManagementSystem object.
+     */
     private void addStudent(SchoolManagementSystem school) {
         String fName = getUserInput("Please enter the first name of the student.");
         String lName = getUserInput("Please enter the last name of the student.");
-        String gender = getUserInput("Please enter the gender of the student. Please input the gender in uppercase. The options are MALE, FEMALE or OTHERS.").toUpperCase();
+        String gender = getUserInput("Please enter the gender of the student. The options are MALE, FEMALE or OTHERS.").toUpperCase();
         school.printDepartments();
-        String departmentId = getUserInput("Please enter the student id.");
+        String departmentId = getUserInput("Please enter the department id (e.g.: D001).").toUpperCase();
         school.addStudent(fName, lName, Gender.valueOf(gender), departmentId);
     }
 
-
+    /**
+     * Method that asks user questions to gather all necessary data to find a department from SchoolManagementSystem.
+     *
+     * @param school initialized SchoolManagementSystem object.
+     */
     private void findDepartment(SchoolManagementSystem school) {
         school.printDepartments();
         String departmentId = getUserInput("Please input the department id (e.g.: D001).");
         school.findDepartment(departmentId);
     }
 
+    /**
+     * Method that asks user questions to gather all necessary data to find a course from SchoolManagementSystem.
+     *
+     * @param school initialized SchoolManagementSystem object.
+     */
     private void findCourse(SchoolManagementSystem school) {
         String courseId = getUserInput("Please input the course id (e.g.: C001).");
         school.findCourse(courseId);
     }
 
+    /**
+     * Method that asks user questions to gather all necessary data to find a teacher from SchoolManagementSystem.
+     *
+     * @param school initialized SchoolManagementSystem object.
+     */
     private void findTeacher(SchoolManagementSystem school) {
         String teacherId = getUserInput("Please input the teacher id (e.g.: T001).");
         school.findTeacher(teacherId);
     }
 
+    /**
+     * Method that asks user questions to gather all necessary data to find a student from SchoolManagementSystem.
+     *
+     * @param school initialized SchoolManagementSystem object.
+     */
     private void findStudent(SchoolManagementSystem school) {
         String studentId = getUserInput("Please input the student id (e.g.: S001).");
         school.findTeacher(studentId);
     }
 
+    /**
+     * Method that asks user questions to gather all necessary data to modify the teacher of a course from SchoolManagementSystem.
+     *
+     * @param school initialized SchoolManagementSystem object.
+     */
     private void modifyCourseTeacher(SchoolManagementSystem school) {
         String teacherId = getUserInput("Please enter the teacher's id (e.g.: T001).");
-        String courseId = getUserInput("Please enter the course's id (e.g.: T001).");
+        String courseId = getUserInput("Please enter the course's id (e.g.: C001).");
         school.modifyCourseTeacher(teacherId, courseId);
     }
 
+    /**
+     * Method that asks user questions to gather all necessary data to register a student to a course from SchoolManagementSystem.
+     *
+     * @param school initialized SchoolManagementSystem object.
+     */
     private void registerCourse(SchoolManagementSystem school) {
         String studentId = getUserInput("Please enter the student id (e.g.: S001)");
         String courseId = getUserInput("Please enter the course id (e.g.: C001)");
         school.registerCourse(studentId, courseId);
     }
 
+    /**
+     * Method that asks user questions to gather all necessary data to unregister a student from course from SchoolManagementSystem.
+     *
+     * @param school initialized SchoolManagementSystem object.
+     */
     private void unregisterCourse(SchoolManagementSystem school) {
         String studentId = getUserInput("Please enter the student id (e.g.: S001)");
         String courseId = getUserInput("Please enter the course id (e.g.: C001)");
         school.unregisterCourse(studentId, courseId);
     }
 
-    private int numberOfStudents() {
-        return school.getStudentList().length;
-    }
-    private int numberOfTeachers() {
-        return school.getTeacherList().length;
-    }
-    private int numberOfCourses() {
-        return school.getCourseList().length;
-    }
+    /**
+     * Method that prints registered department number.
+     */
     private void numberOfDepartments() {
-        System.out.println( school.getDepartmentList().length)
+        System.out.println("[ " + school.getRegisteredDepartmentNumber() + " ]");
     }
 
+    /**
+     * Method that prints registered course number.
+     */
+    private void numberOfCourses() {
+        System.out.println("[ " + school.getRegisteredCourseNumber() + " ]");
+    }
 
+    /**
+     * Method that prints registered teacher number.
+     */
+    private void numberOfTeachers() {
+        System.out.println("[ " + school.getRegisteredTeacherNumber() + " ]");
+    }
 
-    private String getUserInput(String question) {
-        System.out.println(question);
-        String ans = scanner.nextLine();
-        if (ans == null) {
-            System.out.println(question);
-            ans = scanner.nextLine();
+    /**
+     * Method that prints registered student number.
+     */
+    private void numberOfStudents() {
+        System.out.println("[ " + school.getRegisteredStudentNumber() + " ]");
+    }
+
+    /**
+     * Method that keeps asking question till it is valid.
+     *
+     * @param strIn user input.
+     * @return the inputted
+     */
+    private String getUserInput(String strIn) {
+        System.out.println(strIn);
+        String strOut = scanner.nextLine();
+        if (strOut == null) {
+            System.out.println(strIn);
+            strOut = scanner.nextLine();
         }
-        return ans;
+        return strOut;
     }
 
-    private int convertToInt(String input) {
-        int output = -1;
+    /**
+     * Method that converts a string to an integer.
+     *
+     * @param strIn the inputted string.
+     * @return an integer.
+     */
+    private int convertToInt(String strIn) {
+        int strOut = -1;
         try {
-            output = Integer.parseInt(input);
+            strOut = Integer.parseInt(strIn);
         } catch (Exception e) {
             System.out.println("Tip: \t PLEASE PAY EXTRA ATTENTION TO WHEN YOU ARE ENTERING THE VALUES (integer)!");
         }
-        return output;
+        return strOut;
     }
 
-    private double convertToDouble(String input) {
-        double output = -1;
+    /**
+     * Method that converts a string to a double.
+     *
+     * @param strIn the inputted string.
+     * @return a double.
+     */
+    private double convertToDouble(String strIn) {
+        double strOut = -1;
         try {
-            output = Double.parseDouble(input);
+            strOut = Double.parseDouble(strIn);
         } catch (Exception e) {
             System.out.println("Tip: \t PLEASE PAY EXTRA ATTENTION TO WHEN YOU ARE ENTERING THE VALUES (double)!");
         }
-        return output;
+        return strOut;
     }
 
-    public void Menu() {
+    /**
+     * Method that runs the processUserAction method while isExit boolean is true.
+     */
+    public void menu() {
         while (isExit) {
-            menu(scanner, school);
+            processUserAction(scanner, school);
         }
         scanner.close();
     }
 }
-
