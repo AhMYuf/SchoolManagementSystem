@@ -4,9 +4,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Department class, its fields and methods.
+ */
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -15,23 +15,21 @@ public class Department {
     private String departmentName;
     private static int nextId = 1;
 
-
     /**
-     * Constructor for Department class
+     * Constructor for Department class.
      *
-     * @param departmentName the name of the department name
+     * @param departmentName the name of the department name.
      */
     public Department(String departmentName) {
-        // TODO how does a person know department id to find it
         this.id = String.format("D%03d", nextId++);
         this.departmentName = departmentName;
 
     }
 
     /**
-     * toString method for the Department class
+     * toString method for the Department class.
      *
-     * @return the formatted string
+     * @return the formatted string.
      */
     @Override
     public String toString() {

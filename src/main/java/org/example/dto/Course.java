@@ -4,6 +4,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Course class, its fields and methods.
+ */
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -20,27 +23,26 @@ public class Course {
     private static int nextId = 1;
     private static final int MAX_REGISTRATION_COURSE = 5;
 
-
-
     /**
      * Constructor for Course class
      *
      * @param credit     the credit of the class
      * @param courseName the name of the course
+     * @param department the department the course is part of.
      */
     public Course(double credit, String courseName, Department department) {
         this.id = String.format("C%03d", nextId++);
         this.credit = credit;
         this.students = new Student[MAX_REGISTRATION_COURSE];
-        this.courseName = courseName;
         this.department = department;
+        this.courseName = courseName;
     }
 
-    public int getStudentNum() {
-        return students.length;
-    }
-
-
+    /**
+     * Method that adds a student to the department.
+     *
+     * @param student the student that is being adds to a course.
+     */
     public void addStudent(Student student) {
         for (int i = 0; i < students.length; i++) {
             if (students[i] != null && student.getId().equals(students[i].getId())) {
@@ -54,6 +56,11 @@ public class Course {
         }
     }
 
+    /**
+     * Method that removes a student to the department.
+     *
+     * @param student the student that is being removed from a course.
+     */
     public void removeStudent(Student student) {
         for (int i = 0; i < students.length; i++) {
             if (students[i] != null && student.getId().equals(students[i].getId())) {
@@ -68,9 +75,9 @@ public class Course {
     }
 
     /**
-     * toString method for the Course class
+     * toString method for the Course class.
      *
-     * @return the formatted string
+     * @return the formatted string.
      */
     @Override
     public String toString() {
@@ -78,6 +85,11 @@ public class Course {
                 id, credit, department.getDepartmentName(), getStudentsName(), studentNum, teacher.fullName(), courseName);
     }
 
+    /**
+     * Method that gets the name of the students that registered to the course.
+     *
+     * @return (String) name of the students.
+     */
     private String getStudentsName() {
         StringBuilder stringBuilder = new StringBuilder();
         for (Student student : students) {
