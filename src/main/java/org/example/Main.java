@@ -18,6 +18,8 @@ public class Main {
 
         // Adding a course to SchoolManagementSystem.
         school.addCourse(1.5, "Computer Science", "D001");
+        school.modifyCourseTeacher("T001", "C001");
+
 
         // Adding permanent students to SchoolManagementSystem.
         school.addStudent("Ahmet","Yusuf",Gender.MALE, "D001");
